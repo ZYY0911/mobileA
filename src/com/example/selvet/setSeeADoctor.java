@@ -16,16 +16,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setServiceUrl
+ * Servlet implementation class setSeeADoctor
  */
-@WebServlet("/setServiceUrl")
-public class setServiceUrl extends HttpServlet {
+@WebServlet("/setSeeADoctor")
+public class setSeeADoctor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setServiceUrl() {
+	public setSeeADoctor() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,8 +43,12 @@ public class setServiceUrl extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String serviceid = jsonobject.getString("serviceid");
-		String url = jsonobject.getString("url");
+	
+		int caseid = jsonobject.getInt("caseid");
+		int hospitalId = jsonobject.getInt("hospitalId");
+		int departmentId = jsonobject.getInt("departmentId");
+		String time = jsonobject.getString("time");
+		String doctortime = jsonobject.getString("doctorTime");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,7 +58,8 @@ public class setServiceUrl extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			int row = db.update("update service set url = '" + url + "' where serviceid ='" + serviceid + "'");
+			
+		    int row=db.update("insert into seeADoctor(caseid,hospitalid,departmentId,time,doctorTime) values("+caseid+","+hospitalId+","+departmentId+",'"+time+"','"+doctortime+"')");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {

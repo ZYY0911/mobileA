@@ -16,16 +16,17 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setServiceUrl
+ * Servlet implementation class createCase
  */
-@WebServlet("/setServiceUrl")
-public class setServiceUrl extends HttpServlet {
+@WebServlet("/createCase")
+public class createCase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setServiceUrl() {
+	
+	public createCase() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,8 +44,12 @@ public class setServiceUrl extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String serviceid = jsonobject.getString("serviceid");
-		String url = jsonobject.getString("url");
+		String name = jsonobject.getString("name");
+		String sex = jsonobject.getString("sex");
+		String ID = jsonobject.getString("ID");
+		String birthday = jsonobject.getString("birthday");
+		String tel = jsonobject.getString("tel");
+		String address = jsonobject.getString("address");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,7 +59,9 @@ public class setServiceUrl extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			int row = db.update("update service set url = '" + url + "' where serviceid ='" + serviceid + "'");
+		
+			int row = db.update("insert into caseinfo (name,sex,ID,birthday,tel,address) values('" + name + "','"
+					+ sex + "','" + ID + "','" + birthday + "','"+tel+"','"+address+"')");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {

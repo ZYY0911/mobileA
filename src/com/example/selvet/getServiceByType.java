@@ -41,22 +41,30 @@ public class getServiceByType extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String type = jsonobject.getString("type");
+		//{"type":"ÖÇ»Û·þÎñ"}
+		String serviceType = jsonobject.getString("serviceType");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
+		
+		
+		
+		
+		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from service where type ='" + type + "'");
+		db.getRs("select * from service where serviceType ='" + serviceType + "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,12 +72,11 @@ public class getServiceByType extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("name", set.getString(2));
-					jsonObject3.put("weight", set.getInt(3));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(4));
-					jsonObject3.put("url", set.getString(5));
-					jsonObject3.put("type", set.getString(6));
+					jsonObject3.put("serviceid", set.getInt(1));
+					jsonObject3.put("serviceName", set.getString(2));
+					jsonObject3.put("icon", urlString + "/images/" + set.getString(3));
+					jsonObject3.put("url", set.getString(4));
+					jsonObject3.put("serviceType", set.getString(5));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

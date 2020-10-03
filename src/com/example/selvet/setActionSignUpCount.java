@@ -16,16 +16,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setServiceUrl
+ * Servlet implementation class setActionSignUpCount
  */
-@WebServlet("/setServiceUrl")
-public class setServiceUrl extends HttpServlet {
+@WebServlet("/setActionSignUpCount")
+public class setActionSignUpCount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setServiceUrl() {
+	public setActionSignUpCount() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,8 +43,8 @@ public class setServiceUrl extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String serviceid = jsonobject.getString("serviceid");
-		String url = jsonobject.getString("url");
+		int id = jsonobject.getInt("id");
+
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,7 +54,10 @@ public class setServiceUrl extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			int row = db.update("update service set url = '" + url + "' where serviceid ='" + serviceid + "'");
+			String sql = "update actions set count=count+1 where id="+id;
+			
+			System.out.println(sql);
+			int row = db.update(sql);
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {
