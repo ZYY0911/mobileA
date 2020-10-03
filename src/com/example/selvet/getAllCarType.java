@@ -3,6 +3,10 @@ package com.example.selvet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setServiceUrl
+ * Servlet implementation class getAllCarType
  */
-@WebServlet("/setServiceUrl")
-public class setServiceUrl extends HttpServlet {
+@WebServlet("/getAllCarType")
+public class getAllCarType extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setServiceUrl() {
+	public getAllCarType() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,24 +47,35 @@ public class setServiceUrl extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String serviceid = jsonobject.getString("serviceid");
-		String url = jsonobject.getString("url");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
+		
+		
+		
+		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
+		db.getRs("select * from cartype");
+		ResultSet set = db.getRs();
 		try {
-			int row = db.update("update service set url = '" + url + "' where serviceid ='" + serviceid + "'");
-			if (row == 1) {
+			if (set != null) {
 				jsonObject2.put("RESULT", "S");
+				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
+				while (set.next()) {
+					JSONObject jsonObject3 = new JSONObject();
+					jsonObject3.put("id", set.getInt(1));
+					jsonObject3.put("name", set.getString(2));
+					jsonObjects.add(jsonObject3);
+				}
+				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			jsonObject2.clear();
 			jsonObject2.put("RESULT", "F");

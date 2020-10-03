@@ -67,7 +67,7 @@ public class getAllServiceType extends HttpServlet {
 				List<String> jsonObjects = new ArrayList<String>();
 				JSONArray jsonArray = new JSONArray();
 				while (set.next()) {
-					map.put(set.getString(6), set.getString(6));
+					map.put(set.getString(5), set.getString(5));
 				}
 				for (String string : map.values()) {
 					if (string == null || string.equals("")) {

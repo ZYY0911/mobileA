@@ -45,7 +45,7 @@ public class getServiceUrl extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String subwayID = jsonobject.getString("id");
+		String serviceid= jsonobject.getString("serviceid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,12 +54,12 @@ public class getServiceUrl extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from service where id ='" + subwayID + "'");
+		db.getRs("select * from service where serviceid ='" + serviceid + "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null && set.next()) {
 				jsonObject2.put("RESULT", "S");
-				jsonObject2.put("url", set.getString(5));
+				jsonObject2.put("url", set.getString(4));
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
