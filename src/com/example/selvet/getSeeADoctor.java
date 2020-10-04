@@ -47,7 +47,7 @@ public class getSeeADoctor extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String caseid = jsonobject.getString("caseid");
+		String pid = jsonobject.getString("pid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,7 +56,7 @@ public class getSeeADoctor extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from seeADoctor where caseid=" + caseid);
+		db.getRs("select doctors.hospitalId,doctors.deptId,doctors.doctorId,doctors.doctorname,doctors.desc,doctors.tag,seeadoctor.appTime,seeadoctor.name,seeadoctor.phone from seeadoctor,doctors where seeadoctor.doctorId=doctors.doctorid and pid='" + pid+"'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,13 +64,15 @@ public class getSeeADoctor extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("num", set.getInt(1));
-					jsonObject3.put("caseid", set.getInt(2));
-					jsonObject3.put("hospitalId", set.getInt(3));
-					jsonObject3.put("departmentId", set.getInt(4));
-					jsonObject3.put("time", set.getString(5).replace(".0", ""));
-					
-					jsonObject3.put("doctortime", set.getString(6).replace(".0", ""));
+					jsonObject3.put("hospitalId", set.getString(1));
+					jsonObject3.put("deptId", set.getString(2));
+					jsonObject3.put("doctorId", set.getString(3));
+					jsonObject3.put("doctorname", set.getString(4));
+					jsonObject3.put("desc", set.getString(5));
+					jsonObject3.put("tag", set.getString(6));
+					jsonObject3.put("appTime", set.getString(7).replace(".0", ""));
+					jsonObject3.put("name", set.getString(8));
+					jsonObject3.put("phone", set.getString(9));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

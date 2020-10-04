@@ -66,11 +66,11 @@ public class getDutyByDepartmentId extends HttpServlet {
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("num", set.getInt(1));
-					jsonObject3.put("hospitalId", set.getInt(2));
-					jsonObject3.put("departmentId", set.getInt(3));
+					jsonObject3.put("hospitalId", set.getString(2));
+					jsonObject3.put("departmentId", set.getString(3));
 					jsonObject3.put("time", set.getString(4).replace(".0", ""));
 					jsonObject3.put("type", set.getString(5));
-					
+					jsonObject3.put("doctorId", set.getString(6));
 					
 					jsonObjects.add(jsonObject3);
 				}
