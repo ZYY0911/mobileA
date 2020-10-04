@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 /**
  * Servlet implementation class getHospitalDepartmentByHospitalId 
  */
-@WebServlet("/getHospitalDepartmentByHospitalId ")
+@WebServlet("/getHospitalDepartmentByHospitalId")
 public class getHospitalDepartmentByHospitalId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -64,12 +64,11 @@ public class getHospitalDepartmentByHospitalId extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("hospitalId", set.getInt(1));
-					jsonObject3.put("departmentId", set.getInt(2));
-
-					jsonObject3.put("name", set.getString(3));
-					
-					
+					jsonObject3.put("hospitalId", set.getString(1));
+					jsonObject3.put("deptId", set.getString(2));
+					jsonObject3.put("deptName", set.getString(3));
+					jsonObject3.put("desc", set.getString(4));
+					jsonObject3.put("tag", set.getString(5));				
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

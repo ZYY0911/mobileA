@@ -3,6 +3,7 @@ package com.example.selvet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,11 +44,12 @@ public class setUserInfo extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
-		String image = jsonobject.getString("image");
-		String nickname = jsonobject.getString("nickname");
-		String sex = jsonobject.getString("sex");
-		String tel = jsonobject.getString("tel");
+		String userid=jsonobject.getString("userid");
+		String name = jsonobject.getString("name");
+		String avatar = jsonobject.getString("avatar");
+		String phone = jsonobject.getString("phone");
+		String id = jsonobject.getString("id");
+		String gender = jsonobject.getString("gender");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -58,24 +60,35 @@ public class setUserInfo extends HttpServlet {
 		JSONObject jsonObject2 = new JSONObject();
 		try {
 			String sql = "update usertable set";
-			if (!image.equals("")) {
-				sql += " image='" + image + "',";
+			if (!avatar.equals("")) {
+				sql += " avatar='" + avatar + "',";
 			}
-			if (!nickname.equals("")) {
-				sql += " nickname='" + nickname + "',";
+			if (!name.equals("")) {
+				sql += " name='" + name + "',";
 			}
-			if (!sex.equals("")) {
-				sql += " sex='" + sex + "',";
+			if (!gender.equals("")) {
+				sql += " sex='" + gender + "',";
 			}
-			if (!tel.equals("")) {
-				sql += " tel='" + tel + "',";
+			if (!phone.equals("")) {
+				sql += " phone='" + phone + "',";
+			}
+			if (!id.equals("")) {
+				sql += " id='" + id + "',";
 			}
 			sql = sql.substring(0, sql.lastIndexOf(","));
-			sql += " where username = '" + username + "'";
+			sql += " where userid = '" + userid + "'";
 			System.out.println(sql);
 			int row = db.update(sql);
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
+				db.getRs("select * from usertable where userid ='"+userid+"' ");
+				ResultSet set = db.getRs();
+				JSONObject jsonObject3 = new JSONObject();
+				if(set!=null&&set.next()) {
+					jsonObject3.put("userid", set.getString(1));
+					jsonObject3.put("userName", set.getString(2));
+				}
+				jsonObject2.put("data",jsonObject3.toString() );
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}

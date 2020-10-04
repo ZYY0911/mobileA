@@ -57,7 +57,7 @@ public class getAllSubject extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from news");
+		db.getRs("select distinct * from newsinfo");
 		ResultSet set = db.getRs();
 		Map<String, String> map = new HashMap<String, String>();
 		try {
@@ -65,7 +65,7 @@ public class getAllSubject extends HttpServlet {
 				jsonObject2.put("RESULT", "S");
 				List<String> jsonObjects = new ArrayList<String>();
 				while (set.next()) {
-					map.put(set.getString(8), set.getString(8));
+					map.put(set.getString(3), set.getString(3));
 				}
 				for (String string : map.values()) {
 					if (string == null || string.equals("")) {

@@ -43,8 +43,8 @@ public class setPwd extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
-		String pwd = jsonobject.getString("pwd");
+		String userid = jsonobject.getString("userid");
+		String pwd = jsonobject.getString("password");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,7 +54,7 @@ public class setPwd extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			int row = db.update("update usertable set password ='" + pwd + "' where username = '" + username + "'");
+			int row = db.update("update usertable set password ='" + pwd + "' where userid = '" + userid + "'");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {

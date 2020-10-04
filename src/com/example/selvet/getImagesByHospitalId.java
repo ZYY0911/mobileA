@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getImagesByHospital
+ * Servlet implementation class getImagesByHospitalId
  */
-@WebServlet("/getImagesByHospital")
-public class getImagesByHospital extends HttpServlet {
+@WebServlet("/getImagesByHospitalId")
+public class getImagesByHospitalId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getImagesByHospital() {
+	public getImagesByHospitalId() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -56,7 +56,7 @@ public class getImagesByHospital extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select image1,image2,image3,image4 from hospital where hospitalId=" + hospitalId);
+		db.getRs("select image1,image2,image3,image4 from hospitalinfo where hospitalId=" + hospitalId);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {

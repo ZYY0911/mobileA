@@ -43,7 +43,7 @@ public class publicActionCommit extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
+		String userid = jsonobject.getString("userid");
 		String id = jsonobject.getString("id");
 		String commitContent = jsonobject.getString("commitContent");
 		String commitTime = jsonobject.getString("commitTime");
@@ -58,7 +58,7 @@ public class publicActionCommit extends HttpServlet {
 		try {
 			//int row = db.update("insert into commit (id,commit,commitTime,reviewer)" + " values ('" + newsid + "','"
 			//		+ commit + "','" + commitTime + "','" + username + "')");
-		    int row=db.update("insert into actioncommit (id,username,commitTime,commitContent) values("+id+",'"+username+"','"+commitTime+"','"+commitContent+"')");
+		    int row=db.update("insert into actioncommit (id,userid,commitTime,commitContent) values("+id+",'"+userid+"','"+commitTime+"','"+commitContent+"')");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {
