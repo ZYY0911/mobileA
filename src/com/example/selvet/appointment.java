@@ -17,16 +17,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setSeeADoctor
+ * Servlet implementation class appointment
  */
-@WebServlet("/setSeeADoctor")
-public class setSeeADoctor extends HttpServlet {
+@WebServlet("/appointment")
+public class appointment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setSeeADoctor() {
+	public appointment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
