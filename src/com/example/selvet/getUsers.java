@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getPartInfor
+ * Servlet implementation class getUsers
  */
-@WebServlet("/getPartInfor")
-public class getPartInfor extends HttpServlet {
+@WebServlet("/getUsers")
+public class getUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getPartInfor() {
+	public getUsers() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -53,9 +53,13 @@ public class getPartInfor extends HttpServlet {
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
+		
+		
+		
+		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parking");
+		db.getRs("select * from usertable");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -63,15 +67,8 @@ public class getPartInfor extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("parkName", set.getString(2));
-					jsonObject3.put("spaceNum", set.getInt(3));
-					jsonObject3.put("address", set.getString(4));
-					jsonObject3.put("rate", set.getString(5));
-					jsonObject3.put("distance", set.getInt(6));
-					jsonObject3.put("isOpen", set.getString(7));
-					jsonObject3.put("surCarPort", set.getInt(8));
-					jsonObject3.put("rateRefer", set.getString(9));
+					jsonObject3.put("userid", set.getString(1));
+					jsonObject3.put("username", set.getString(2));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

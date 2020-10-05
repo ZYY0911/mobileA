@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getParkingHistoryById
+ * Servlet implementation class getParkInforById
  */
-@WebServlet("/getParkingHistoryById")
-public class getParkingHistoryById extends HttpServlet {
+@WebServlet("/getParkInforById")
+public class getParkInforById extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getParkingHistoryById() {
+	public getParkInforById() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -56,7 +56,7 @@ public class getParkingHistoryById extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parknote where parkingid=" + parkingid);
+		db.getRs("select * from parking where parkingid="+parkingid);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,13 +64,15 @@ public class getParkingHistoryById extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("carNum", set.getString(2));
-					jsonObject3.put("charge", set.getString(3));				
-					jsonObject3.put("inTime", set.getString(4).replace(".0", ""));
-					jsonObject3.put("outTime", set.getString(5).replace(".0", ""));
-					jsonObject3.put("parkingid", set.getString(6));
-					
+					jsonObject3.put("parkingid", set.getInt(1));
+					jsonObject3.put("parkName", set.getString(2));
+					jsonObject3.put("spaceNum", set.getInt(3));
+					jsonObject3.put("address", set.getString(4));
+					jsonObject3.put("rate", set.getString(5));
+					jsonObject3.put("distance", set.getInt(6));
+					jsonObject3.put("isOpen", set.getString(7));
+					jsonObject3.put("surCarPort", set.getInt(8));
+					jsonObject3.put("rateRefer", set.getString(9));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

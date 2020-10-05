@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getParkingHistoryById
+ * Servlet implementation class service_info
  */
-@WebServlet("/getParkingHistoryById")
-public class getParkingHistoryById extends HttpServlet {
+@WebServlet("/service_info")
+public class service_info extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getParkingHistoryById() {
+	public service_info() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,22 +41,30 @@ public class getParkingHistoryById extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String parkingid = jsonobject.getString("parkingid");
+		//{"type":"ÖÇ»Û·þÎñ"}
+		String serviceid= jsonobject.getString("serviceid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
+		
+		
+		
+		
+		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parknote where parkingid=" + parkingid);
+		db.getRs("select * from service where serviceid ='" + serviceid + "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,13 +72,12 @@ public class getParkingHistoryById extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("carNum", set.getString(2));
-					jsonObject3.put("charge", set.getString(3));				
-					jsonObject3.put("inTime", set.getString(4).replace(".0", ""));
-					jsonObject3.put("outTime", set.getString(5).replace(".0", ""));
-					jsonObject3.put("parkingid", set.getString(6));
-					
+					jsonObject3.put("serviceid", set.getInt(1));
+					jsonObject3.put("serviceName", set.getString(2));
+					jsonObject3.put("icon", urlString + "/images/" + set.getString(3));
+					jsonObject3.put("url", set.getString(4));
+					jsonObject3.put("serviceType", set.getString(5));
+					jsonObject3.put("desc", set.getString(6));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getParkingHistoryById
+ * Servlet implementation class doctorList
  */
-@WebServlet("/getParkingHistoryById")
-public class getParkingHistoryById extends HttpServlet {
+@WebServlet("/doctorList")
+public class doctorList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getParkingHistoryById() {
+	public doctorList() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +47,6 @@ public class getParkingHistoryById extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String parkingid = jsonobject.getString("parkingid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,7 +55,7 @@ public class getParkingHistoryById extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parknote where parkingid=" + parkingid);
+		db.getRs("select * from doctors");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,13 +63,12 @@ public class getParkingHistoryById extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("carNum", set.getString(2));
-					jsonObject3.put("charge", set.getString(3));				
-					jsonObject3.put("inTime", set.getString(4).replace(".0", ""));
-					jsonObject3.put("outTime", set.getString(5).replace(".0", ""));
-					jsonObject3.put("parkingid", set.getString(6));
-					
+					jsonObject3.put("hospitalId", set.getString(2));
+					jsonObject3.put("deptId", set.getString(3));
+					jsonObject3.put("doctorId", set.getString(1));
+					jsonObject3.put("doctorName", set.getString(4));
+					jsonObject3.put("desc", set.getString(5));
+					jsonObject3.put("tag", set.getString(6));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

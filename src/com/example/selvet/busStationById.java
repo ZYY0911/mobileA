@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getParkingHistoryById
+ * Servlet implementation class busStationById
  */
-@WebServlet("/getParkingHistoryById")
-public class getParkingHistoryById extends HttpServlet {
+@WebServlet("/busStationById")
+public class busStationById extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getParkingHistoryById() {
+	public busStationById() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +47,7 @@ public class getParkingHistoryById extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String parkingid = jsonobject.getString("parkingid");
+		String busid = jsonobject.getString("busid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,7 +56,7 @@ public class getParkingHistoryById extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parknote where parkingid=" + parkingid);
+		db.getRs("select * from bus_site where busid="+busid);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -65,11 +65,8 @@ public class getParkingHistoryById extends HttpServlet {
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("carNum", set.getString(2));
-					jsonObject3.put("charge", set.getString(3));				
-					jsonObject3.put("inTime", set.getString(4).replace(".0", ""));
-					jsonObject3.put("outTime", set.getString(5).replace(".0", ""));
-					jsonObject3.put("parkingid", set.getString(6));
+					jsonObject3.put("busid", set.getInt(2));
+					jsonObject3.put("siteName", set.getString(3));
 					
 					jsonObjects.add(jsonObject3);
 				}

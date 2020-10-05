@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getParkingHistoryById
+ * Servlet implementation class getParkingHistoryByIdAndOutTime
  */
-@WebServlet("/getParkingHistoryById")
-public class getParkingHistoryById extends HttpServlet {
+@WebServlet("/getParkingHistoryByIdAndOutTime")
+public class getParkingHistoryByIdAndOutTime extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getParkingHistoryById() {
+	public getParkingHistoryByIdAndOutTime() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -48,6 +48,9 @@ public class getParkingHistoryById extends HttpServlet {
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
 		String parkingid = jsonobject.getString("parkingid");
+		String outTime1=jsonobject.getString("outTime1");
+		String outTime2=jsonobject.getString("outTime2");
+
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,7 +59,17 @@ public class getParkingHistoryById extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from parknote where parkingid=" + parkingid);
+		//db.getRs("select * from parknote where parkingid='"+parkingid+"' and intime>'"+inTime1+"' and intime<'"+inTime2+"'");
+		String sql = "select * from parknote where parkingid='"+parkingid+"'";
+		if(!outTime1.equals(""))
+		{
+			sql+=" and outtime>'"+outTime1+"'";
+		}
+		if(!outTime2.equals(""))
+		{
+			sql+=" and outtime<'"+outTime2+"'";
+		}
+		db.getRs(sql);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
