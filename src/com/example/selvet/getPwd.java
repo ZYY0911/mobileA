@@ -45,7 +45,7 @@ public class getPwd extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
+		String userid = jsonobject.getString("userid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,13 +54,13 @@ public class getPwd extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from usertable where username ='" + username + "'");
+		db.getRs("select * from usertable where userid ='" + userid+ "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null && set.next()) {
 				jsonObject2.put("RESULT", "S");
-				jsonObject2.put("username", username);
-				jsonObject2.put("pwd", set.getString(3));
+				jsonObject2.put("username", userid);
+				jsonObject2.put("password", set.getString(3));
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}

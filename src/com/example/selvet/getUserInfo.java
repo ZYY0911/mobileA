@@ -47,6 +47,7 @@ public class getUserInfo extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
+		String userid= jsonobject.getString("userid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -55,7 +56,7 @@ public class getUserInfo extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from usertable");
+		db.getRs("select id,name,phone,avatar,gender from usertable where userid='"+userid+"'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -63,13 +64,12 @@ public class getUserInfo extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("username", set.getString(2));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(4));
-					jsonObject3.put("nickname", set.getString(5));
-					jsonObject3.put("sex", set.getString(6));
-					jsonObject3.put("tel", set.getString(7));
-					jsonObject3.put("carId", set.getString(8));
+					jsonObject3.put("id", set.getString(1));
+					jsonObject3.put("name", set.getString(2));
+					jsonObject3.put("avatar", urlString + "/images/" + set.getString(4));
+					jsonObject3.put("phone", set.getString(3));
+					jsonObject3.put("sex", set.getString(5));
+
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

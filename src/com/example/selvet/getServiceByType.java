@@ -77,6 +77,7 @@ public class getServiceByType extends HttpServlet {
 					jsonObject3.put("icon", urlString + "/images/" + set.getString(3));
 					jsonObject3.put("url", set.getString(4));
 					jsonObject3.put("serviceType", set.getString(5));
+					jsonObject3.put("desc", set.getString(6));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

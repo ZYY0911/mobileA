@@ -45,7 +45,7 @@ public class getNewsByImages extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String id = jsonobject.getString("id");
+		String num = jsonobject.getString("num");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -54,21 +54,18 @@ public class getNewsByImages extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from news where id = '" + id + "'");
+		db.getRs("select newslist.newsid,newslist.newstype,newslist.picture,newslist.abstract,newslist.title,newslist.url from newslist,photo where newslist.newsid=photo.id and photo.num='" + num + "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null && set.next()) {
 				jsonObject2.put("RESULT", "S");
-				jsonObject2.put("id", set.getInt(1));
-				jsonObject2.put("type", set.getString(2));
-				jsonObject2.put("img", urlString + "/images/" + set.getString(3));
-				jsonObject2.put("title", set.getString(10));
-				jsonObject2.put("content", set.getString(4));
-				jsonObject2.put("publicTime", set.getString(5).replace(".0", ""));
-				jsonObject2.put("audienceCount", set.getInt(6));
-				jsonObject2.put("praiseCount", set.getInt(7));
-				jsonObject2.put("subject", set.getString(8));
-				jsonObject2.put("flag", set.getInt(9));
+				jsonObject2.put("newsid", set.getString(1));
+				jsonObject2.put("newsType", set.getString(2));
+				jsonObject2.put("picture", urlString + "/images/" + set.getString(3));
+				jsonObject2.put("abstract", set.getString(4));
+				jsonObject2.put("title", set.getString(5));
+				jsonObject2.put("url", set.getString(6));
+				
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}

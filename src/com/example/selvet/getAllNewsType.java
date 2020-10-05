@@ -20,7 +20,7 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getUserInfo
+ * Servlet implementation class getAllNewsType
  */
 @WebServlet("/getAllNewsType")
 public class getAllNewsType extends HttpServlet {
@@ -59,7 +59,7 @@ public class getAllNewsType extends HttpServlet {
 		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select distinct subject from news");
+		db.getRs("select distinct newsType from newslist");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -67,7 +67,7 @@ public class getAllNewsType extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("subject", set.getString(1));
+					jsonObject3.put("newstype", set.getString(1));
 				
 					jsonObjects.add(jsonObject3);
 				}

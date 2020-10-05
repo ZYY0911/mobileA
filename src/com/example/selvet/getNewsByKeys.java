@@ -56,7 +56,7 @@ public class getNewsByKeys extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from news where content like '%" + keys + "%'");
+		db.getRs("select * from newslist where abstract like '%" + keys + "%'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,16 +64,13 @@ public class getNewsByKeys extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("type", set.getString(2));
-					jsonObject3.put("img", urlString + "/images/" + set.getString(3));
-					jsonObject3.put("title", set.getString(10));
-					jsonObject3.put("content", set.getString(4));
-					jsonObject3.put("publicTime", set.getString(5).replace(".0", ""));
-					jsonObject3.put("audienceCount", set.getInt(6));
-					jsonObject3.put("praiseCount", set.getInt(7));
-					jsonObject3.put("subject", set.getString(8));
-					jsonObject3.put("flag", set.getInt(9));
+					jsonObject3.put("newsid", set.getString(1));
+					jsonObject3.put("newsType", set.getString(2));
+					jsonObject3.put("picture", urlString + "/images/" + set.getString(3));
+					jsonObject3.put("abstract", set.getString(4));
+					jsonObject3.put("title", set.getString(5));
+					jsonObject3.put("url", set.getString(6));
+					
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

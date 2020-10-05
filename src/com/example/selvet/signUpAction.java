@@ -43,7 +43,7 @@ public class signUpAction extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
+		String userid = jsonobject.getString("userid");
 		String id = jsonobject.getString("id");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
@@ -56,7 +56,7 @@ public class signUpAction extends HttpServlet {
 		try {
 			//int row = db.update("insert into commit (id,commit,commitTime,reviewer)" + " values ('" + newsid + "','"
 			//		+ commit + "','" + commitTime + "','" + username + "')");
-		    int row=db.update("insert into signupaction(id,username) values("+id+",'"+username+"')");
+		    int row=db.update("insert into signupaction(id,userid) values("+id+",'"+userid+"')");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {

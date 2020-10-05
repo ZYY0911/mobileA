@@ -43,7 +43,7 @@ public class publicOpinion extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String username = jsonobject.getString("username");
+		String userid = jsonobject.getString("userid");
 		String content = jsonobject.getString("content");
 		String time = jsonobject.getString("time");
 		String urlString = request.getRequestURL().toString();
@@ -55,8 +55,8 @@ public class publicOpinion extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			int row = db.update("insert into opinions (content,username,time) "
-					+ "values ('" + content + "','" + username+ "','" + time+"')");
+			int row = db.update("insert into opinions (content,userid,time) "
+					+ "values ('" + content + "','" + userid+ "','" + time+"')");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 			} else {
