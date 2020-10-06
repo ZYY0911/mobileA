@@ -61,6 +61,7 @@ public class deptList extends HttpServlet {
 		try {
 			if (set != null) {
 				jsonObject2.put("RESULT", "S");
+				
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
