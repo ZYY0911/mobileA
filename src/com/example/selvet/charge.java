@@ -3,7 +3,6 @@ package com.example.selvet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +16,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class appointment
+ * Servlet implementation class charge
  */
-@WebServlet("/appointment")
-public class appointment extends HttpServlet {
+@WebServlet("/charge")
+public class charge extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public appointment() {
+	public charge() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -44,12 +43,10 @@ public class appointment extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-	
-		String pid = jsonobject.getString("pid");
-		String name = jsonobject.getString("name");
-		String phone = jsonobject.getString("phone");
-		String doctorId = jsonobject.getString("doctorId");
-		String appTime = jsonobject.getString("appTime");
+		String userid = jsonobject.getString("userid");
+		String accountId = jsonobject.getString("accountId");
+		int type=jsonobject.getInt("type");
+
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -59,25 +56,15 @@ public class appointment extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
+			String sql="update accountinfo set balance=balance-cost,cost=0 where ";
+			if(type==1)
+				sql+="type='水费'";
+			else if(type==2)
+				sql+="type='电费'";
 			
-		    int row=db.update("insert into seeadoctor (pid,name,phone,doctorId,appTime) values ('"+pid+"','"+name+"','"+phone+"',"+doctorId+",'"+appTime+"')");
+			int row = db.update(sql+" and userid='"+userid+"' and accountId='"+accountId+"'");
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
-				
-				db.getRs("select doctors.hospitalid,doctors.deptid,doctors.doctorname,doctors.desc,doctors.tag,seeadoctor.appTime from seeadoctor,doctors where seeadoctor.doctorId=doctors.doctorid and pid='"+pid+"' ");
-				ResultSet set = db.getRs();
-				JSONObject jsonObject3 = new JSONObject();
-				if(set!=null&&set.next()) {				
-					jsonObject3.put("hospitalId", set.getString(1));
-					jsonObject3.put("deptId", set.getString(2));
-					jsonObject3.put("doctorname", set.getString(3));
-					jsonObject3.put("desc", set.getString(4));
-					jsonObject3.put("tag", set.getString(5));
-					jsonObject3.put("appTime", set.getString(6));
-				}
-				jsonObject2.put("data",jsonObject3.toString() );		
-				
-				
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
