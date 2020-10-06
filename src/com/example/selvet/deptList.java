@@ -47,6 +47,7 @@ public class deptList extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
+		String hospitalId = jsonobject.getString("hospitalId");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -55,7 +56,7 @@ public class deptList extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from hospitaldepartment");
+		db.getRs("select * from hospitaldepartment where hospitalId='"+hospitalId+"'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {

@@ -17,16 +17,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class setUserInfo
+ * Servlet implementation class updateCase
  */
-@WebServlet("/setUserInfo")
-public class setUserInfo extends HttpServlet {
+@WebServlet("/updateCase")
+public class updateCase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public setUserInfo() {
+	public updateCase() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -44,12 +44,15 @@ public class setUserInfo extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String userid=jsonobject.getString("userid");
+		String caseid1=jsonobject.getString("caseid1");
+		String caseid2=jsonobject.getString("caseid2");
 		String name = jsonobject.getString("name");
-		String avatar = jsonobject.getString("avatar");
-		String phone = jsonobject.getString("phone");
-		String id = jsonobject.getString("id");
-		String gender = jsonobject.getString("gender");
+		String sex = jsonobject.getString("sex");
+		String ID = jsonobject.getString("ID");
+		String birthday = jsonobject.getString("birthday");
+		String tel = jsonobject.getString("tel");
+		
+		String address = jsonobject.getString("address");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -59,36 +62,35 @@ public class setUserInfo extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			String sql = "update usertable set";
-			if (!avatar.equals("")) {
-				sql += " avatar='" + avatar + "',";
+			String sql = "update caseinfo set ";
+			if (!caseid2.equals("")) {
+				sql += " caseid='" + caseid2 + "',";
 			}
 			if (!name.equals("")) {
 				sql += " name='" + name + "',";
 			}
-			if (!gender.equals("")) {
-				sql += " gender='" + gender + "',";
+			if (!birthday.equals("")) {
+				sql += " birthday='" + birthday + "',";
 			}
-			if (!phone.equals("")) {
-				sql += " phone='" + phone + "',";
+			if (!sex.equals("")) {
+				sql += " sex='" + sex + "',";
 			}
-			if (!id.equals("")) {
-				sql += " id='" + id + "',";
+			if (!tel.equals("")) {
+				sql += " tel='" + tel + "',";
+			}
+			if (!ID.equals("")) {
+				sql += " ID='" + ID + "',";
+			}
+			if (!address.equals("")) {
+				sql += " address='" + address + "',";
 			}
 			sql = sql.substring(0, sql.lastIndexOf(","));
-			sql += " where userid = '" + userid + "'";
+			sql += " where caseid = '" + caseid1 + "'";
 			System.out.println(sql);
 			int row = db.update(sql);
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
-				db.getRs("select * from usertable where userid ='"+userid+"' ");
-				ResultSet set = db.getRs();
-				JSONObject jsonObject3 = new JSONObject();
-				if(set!=null&&set.next()) {
-					jsonObject3.put("userid", set.getString(1));
-					jsonObject3.put("userName", set.getString(2));
-				}
-				jsonObject2.put("data",jsonObject3.toString() );
+				
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
