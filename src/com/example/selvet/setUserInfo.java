@@ -44,7 +44,7 @@ public class setUserInfo extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String userid=jsonobject.getString("userid");
+		String userid = jsonobject.getString("userid");
 		String name = jsonobject.getString("name");
 		String avatar = jsonobject.getString("avatar");
 		String phone = jsonobject.getString("phone");
@@ -81,14 +81,14 @@ public class setUserInfo extends HttpServlet {
 			int row = db.update(sql);
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
-				db.getRs("select * from usertable where userid ='"+userid+"' ");
+				db.getRs("select * from usertable where userid ='" + userid + "' ");
 				ResultSet set = db.getRs();
 				JSONObject jsonObject3 = new JSONObject();
-				if(set!=null&&set.next()) {
+				if (set != null && set.next()) {
 					jsonObject3.put("userid", set.getString(1));
 					jsonObject3.put("userName", set.getString(2));
 				}
-				jsonObject2.put("data",jsonObject3.toString() );
+				jsonObject2.put("data", jsonObject3.toString());
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}

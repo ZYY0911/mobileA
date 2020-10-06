@@ -56,7 +56,8 @@ public class getServiceInOrder extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from service order by weight " + (id.equals("1") ? "desc" : "asc"));
+//		db.getRs("select * from service order by weight " + (id.equals("1") ? "desc" : "asc"));
+		db.getRs("select * from service");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -66,10 +67,10 @@ public class getServiceInOrder extends HttpServlet {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("id", set.getInt(1));
 					jsonObject3.put("name", set.getString(2));
-					jsonObject3.put("weight", set.getInt(3));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(4));
-					jsonObject3.put("url", set.getString(5));
-					jsonObject3.put("type", set.getString(6));
+					// jsonObject3.put("weight", set.getInt(3));
+					jsonObject3.put("image", urlString + "/images/" + set.getString(3));
+					jsonObject3.put("url", set.getString(4));
+					jsonObject3.put("type", set.getString(5));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

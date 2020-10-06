@@ -64,8 +64,8 @@ public class getActionImages extends HttpServlet {
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(2));
-				
+					jsonObject3.put("image", urlString + "/images/" + set.getString(8));
+
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
