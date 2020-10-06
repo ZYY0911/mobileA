@@ -51,6 +51,7 @@ public class deptList extends HttpServlet {
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
+		
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();

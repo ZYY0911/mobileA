@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getServiceInOrder
+ * Servlet implementation class getCarPlace
  */
-@WebServlet("/getServiceInOrder")
-public class getServiceInOrder extends HttpServlet {
+@WebServlet("/getCarPlace")
+public class getCarPlace extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getServiceInOrder() {
+	public getCarPlace() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,17 +47,19 @@ public class getServiceInOrder extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String id = jsonobject.getString("order");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
+		
+		
+		
+		
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-//		db.getRs("select * from service order by weight " + (id.equals("1") ? "desc" : "asc"));
-		db.getRs("select * from serviceweight order by weight "+ (id.equals("1") ? "desc" : "asc"));
+		db.getRs("select * from carplace");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -67,14 +69,9 @@ public class getServiceInOrder extends HttpServlet {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("id", set.getInt(1));
 					jsonObject3.put("name", set.getString(2));
-					// jsonObject3.put("weight", set.getInt(3));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(3));
-					jsonObject3.put("url", set.getString(4));
-					jsonObject3.put("type", set.getString(5));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
-
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
