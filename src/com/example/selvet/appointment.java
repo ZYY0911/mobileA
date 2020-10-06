@@ -64,7 +64,7 @@ public class appointment extends HttpServlet {
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
 				
-				db.getRs("select doctors.hospitalid,doctors.deptid,doctors.doctorname,doctors.desc,doctors.tag,seeadoctor.appTime from seeadoctor,doctors where seeadoctor.doctorId=doctors.doctorid and pid='"+pid+"' ");
+				db.getRs("select doctors.hospitalid,doctors.deptid,doctors.doctorname,doctors.desc,doctors.tag,seeadoctor.appTime from seeadoctor,doctors where seeadoctor.doctorId=doctors.doctorid and pid='"+pid+"' and appTime='"+appTime+"'");
 				ResultSet set = db.getRs();
 				JSONObject jsonObject3 = new JSONObject();
 				if(set!=null&&set.next()) {				

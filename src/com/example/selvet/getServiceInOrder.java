@@ -65,12 +65,9 @@ public class getServiceInOrder extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("id", set.getInt(1));
-					jsonObject3.put("name", set.getString(2));
-					// jsonObject3.put("weight", set.getInt(3));
-					jsonObject3.put("image", urlString + "/images/" + set.getString(3));
-					jsonObject3.put("url", set.getString(4));
-					jsonObject3.put("type", set.getString(5));
+					jsonObject3.put("id", set.getString(1));
+					jsonObject3.put("weight", set.getInt(2));
+					
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
