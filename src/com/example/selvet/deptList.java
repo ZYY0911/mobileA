@@ -47,19 +47,22 @@ public class deptList extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
+		String hospitalId = jsonobject.getString("hospitalId");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
+		
 		System.out.println(request.getRemoteHost());
 		System.err.println(new MyUtil().simpDate("yyyy-MM-dd HH:mm:ss", new java.util.Date()));
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from hospitaldepartment");
+		db.getRs("select * from hospitaldepartment where hospitalId='"+hospitalId+"'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
 				jsonObject2.put("RESULT", "S");
+				
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();

@@ -17,16 +17,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class appointment
+ * Servlet implementation class updateCase
  */
-@WebServlet("/appointment")
-public class appointment extends HttpServlet {
+@WebServlet("/updateCase")
+public class updateCase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public appointment() {
+	public updateCase() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -44,12 +44,15 @@ public class appointment extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-	
-		String pid = jsonobject.getString("pid");
+		String caseid1=jsonobject.getString("caseid1");
+		String caseid2=jsonobject.getString("caseid2");
 		String name = jsonobject.getString("name");
-		String phone = jsonobject.getString("phone");
-		String doctorId = jsonobject.getString("doctorId");
-		String appTime = jsonobject.getString("appTime");
+		String sex = jsonobject.getString("sex");
+		String ID = jsonobject.getString("ID");
+		String birthday = jsonobject.getString("birthday");
+		String tel = jsonobject.getString("tel");
+		
+		String address = jsonobject.getString("address");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -59,24 +62,34 @@ public class appointment extends HttpServlet {
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
 		try {
-			
-		    int row=db.update("insert into seeadoctor (pid,name,phone,doctorId,appTime) values ('"+pid+"','"+name+"','"+phone+"',"+doctorId+",'"+appTime+"')");
+			String sql = "update caseinfo set ";
+			if (!caseid2.equals("")) {
+				sql += " caseid='" + caseid2 + "',";
+			}
+			if (!name.equals("")) {
+				sql += " name='" + name + "',";
+			}
+			if (!birthday.equals("")) {
+				sql += " birthday='" + birthday + "',";
+			}
+			if (!sex.equals("")) {
+				sql += " sex='" + sex + "',";
+			}
+			if (!tel.equals("")) {
+				sql += " tel='" + tel + "',";
+			}
+			if (!ID.equals("")) {
+				sql += " ID='" + ID + "',";
+			}
+			if (!address.equals("")) {
+				sql += " address='" + address + "',";
+			}
+			sql = sql.substring(0, sql.lastIndexOf(","));
+			sql += " where caseid = '" + caseid1 + "'";
+			System.out.println(sql);
+			int row = db.update(sql);
 			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
-				
-				db.getRs("select doctors.hospitalid,doctors.deptid,doctors.doctorname,doctors.desc,doctors.tag,seeadoctor.appTime from seeadoctor,doctors where seeadoctor.doctorId=doctors.doctorid and pid='"+pid+"' and appTime='"+appTime+"'");
-				ResultSet set = db.getRs();
-				JSONObject jsonObject3 = new JSONObject();
-				if(set!=null&&set.next()) {				
-					jsonObject3.put("hospitalId", set.getString(1));
-					jsonObject3.put("deptId", set.getString(2));
-					jsonObject3.put("doctorname", set.getString(3));
-					jsonObject3.put("desc", set.getString(4));
-					jsonObject3.put("tag", set.getString(5));
-					jsonObject3.put("appTime", set.getString(6));
-				}
-				jsonObject2.put("data",jsonObject3.toString() );		
-				
 				
 			} else {
 				jsonObject2.put("RESULT", "F");
