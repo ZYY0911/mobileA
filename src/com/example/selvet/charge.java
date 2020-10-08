@@ -38,6 +38,7 @@ public class charge extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
+		
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		BufferedReader reader = request.getReader();

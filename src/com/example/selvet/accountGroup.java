@@ -66,8 +66,7 @@ public class accountGroup extends HttpServlet {
 					JSONObject jsonObject3 = new JSONObject();
 					jsonObject3.put("userid", set.getString(1));
 					jsonObject3.put("id", set.getInt(2));
-					jsonObject3.put("groupName", set.getString(3));
-					
+					jsonObject3.put("groupName", set.getString(3));				
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
