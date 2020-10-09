@@ -56,7 +56,7 @@ public class accountGroup extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from accountgroup where userid='"+userid+"'");
+		db.getRs("select * from accountgroup where userid='" + userid + "'");
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,9 +64,9 @@ public class accountGroup extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("userid", set.getString(21));
+					jsonObject3.put("userid", set.getString(2));
 					jsonObject3.put("index", set.getInt(1));
-					jsonObject3.put("groupName", set.getString(3));				
+					jsonObject3.put("groupName", set.getString(3));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
