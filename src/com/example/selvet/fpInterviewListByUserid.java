@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class accountGroup
+ * Servlet implementation class fpInterviewListByUserid
  */
-@WebServlet("/accountGroup")
-public class accountGroup extends HttpServlet {
+@WebServlet("/fpInterviewListByUserid")
+public class fpInterviewListByUserid extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public accountGroup() {
+	public fpInterviewListByUserid() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -56,7 +56,7 @@ public class accountGroup extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from accountgroup where userid='"+userid+"'");
+		db.getRs("select * from fpinterview where userid="+userid);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,9 +64,13 @@ public class accountGroup extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("userid", set.getString(2));
-					jsonObject3.put("index", set.getInt(1));
-					jsonObject3.put("groupName", set.getString(3));				
+					jsonObject3.put("interviewid", set.getInt(1));
+					jsonObject3.put("villiagerid", set.getInt(2));
+					jsonObject3.put("starttime", set.getString(3).replace(".0",""));
+					jsonObject3.put("endtime", set.getString(4).replace(".0",""));
+					jsonObject3.put("intent", set.getString(5));
+					jsonObject3.put("userid", set.getInt(6));
+					
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

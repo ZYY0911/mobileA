@@ -20,16 +20,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class accountGroup
+ * Servlet implementation class fpVilliagerListByVillid
  */
-@WebServlet("/accountGroup")
-public class accountGroup extends HttpServlet {
+@WebServlet("/fpVilliagerListByVillid")
+public class fpVilliagerListByVillid extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public accountGroup() {
+	public fpVilliagerListByVillid() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +47,7 @@ public class accountGroup extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
-		String userid = jsonobject.getString("userid");
+		String villid = jsonobject.getString("villid");
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,7 +56,7 @@ public class accountGroup extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from accountgroup where userid='"+userid+"'");
+		db.getRs("select  * from fpvilliager where villid="+villid);
 		ResultSet set = db.getRs();
 		try {
 			if (set != null) {
@@ -64,9 +64,9 @@ public class accountGroup extends HttpServlet {
 				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 				while (set.next()) {
 					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("userid", set.getString(2));
-					jsonObject3.put("index", set.getInt(1));
-					jsonObject3.put("groupName", set.getString(3));				
+					jsonObject3.put("villiagerid", set.getInt(1));
+					jsonObject3.put("name", set.getString(2));
+					jsonObject3.put("villid", set.getInt(3));
 					jsonObjects.add(jsonObject3);
 				}
 				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());

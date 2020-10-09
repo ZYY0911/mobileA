@@ -3,10 +3,6 @@ package com.example.selvet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,16 +16,16 @@ import com.example.db.MyUtil;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class accountGroup
+ * Servlet implementation class fpApply
  */
-@WebServlet("/accountGroup")
-public class accountGroup extends HttpServlet {
+@WebServlet("/fpApply")
+public class fpApply extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public accountGroup() {
+	public fpApply() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +43,15 @@ public class accountGroup extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		JSONObject jsonobject = JSONObject.fromObject(json);
+		String applytitle = jsonobject.getString("applytitle");
+		String applydesc = jsonobject.getString("applydesc");
+		String applycontent = jsonobject.getString("applycontent");
+		String villid = jsonobject.getString("villid");
+		String starttime = jsonobject.getString("starttime");
+		String helpdesc = jsonobject.getString("helpdesc");
+		String applystate = jsonobject.getString("applystate");
 		String userid = jsonobject.getString("userid");
+		
 		String urlString = request.getRequestURL().toString();
 		urlString = urlString.substring(0, urlString.lastIndexOf("/"));
 		System.out.println(urlString);
@@ -56,24 +60,14 @@ public class accountGroup extends HttpServlet {
 		reader.close();
 		DB db = new DB();
 		JSONObject jsonObject2 = new JSONObject();
-		db.getRs("select * from accountgroup where userid='"+userid+"'");
-		ResultSet set = db.getRs();
 		try {
-			if (set != null) {
+			int row = db.update("insert into fpapply (applytitle,applydesc,applycontent,villid,starttime,helpdesc,applystate,userid) values ('"+applytitle+"','"+applydesc+"','"+applycontent+"',"+villid+",'"+starttime+"','"+helpdesc+"','"+applystate+"','"+userid+"')");
+			if (row == 1) {
 				jsonObject2.put("RESULT", "S");
-				List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
-				while (set.next()) {
-					JSONObject jsonObject3 = new JSONObject();
-					jsonObject3.put("userid", set.getString(2));
-					jsonObject3.put("index", set.getInt(1));
-					jsonObject3.put("groupName", set.getString(3));				
-					jsonObjects.add(jsonObject3);
-				}
-				jsonObject2.put("ROWS_DETAIL", jsonObjects.toString());
 			} else {
 				jsonObject2.put("RESULT", "F");
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			jsonObject2.clear();
 			jsonObject2.put("RESULT", "F");
