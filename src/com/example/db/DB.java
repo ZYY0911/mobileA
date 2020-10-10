@@ -17,6 +17,7 @@ public class DB {
 	public DB() {
 		className = "com.mysql.jdbc.Driver";
 		url = "jdbc:mysql://118.190.26.201:3306/model_1?useUnicode=true&characterEncoding=utf8&useSSL=false";
+//		url = "jdbc:mysql://127.0.0.1:3306/model_1?useUnicode=true&characterEncoding=utf8&useSSL=false";
 		username = "root";
 		password = ".zhang18562055596";
 		// password = "1234";
